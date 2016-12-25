@@ -15,7 +15,7 @@ if not (hasNote or hasChord):
 
 with open(inFileName, 'r') as f:
 	lines = f.readlines()
-lines = [line.split() for line in lines]
+lines = [line.rstrip().split() for line in lines]
 
 midiFile = MidiFile()
 track = MidiTrack()
