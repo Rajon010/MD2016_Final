@@ -44,7 +44,8 @@ noteName2IndexDict = {
 def baseAndIndex2Key(base, n):
 	return base * 12 + wwhwwwhwwCumulative[n]
 
-timeDelta = int(60 / 132 * 1000 / 4) # must be int
+speed = 112
+timeDelta = int(60 / speed * 1000 / 4) # must be int
 
 def appendNoteByKey(_track, n, t):
 	if n == -1:
@@ -68,6 +69,8 @@ def appendNoteByStr(_track, s, t):
 
 timeInterval = 0
 for line in lines:
+	if line[0] == '@':
+		continue
 	if line[0] == '#':
 		break
 	timeInterval = appendChord(track, line[0], timeInterval)
