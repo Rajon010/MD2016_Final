@@ -1,7 +1,7 @@
-@x1
+@ x1
 C c6 - - -
 C - - e6 -
-G d6 c6 b5 d6
+F d6 c6 b5 d6
 C c6 - - -
 C c6 d6 c6 b5
 C c6 d6 e6 f6
@@ -17,7 +17,7 @@ G d6 - - -
 G g6 f6 e6 d6
 C c6 - - -
 C - - e6 -
-G d6 c6 b5 d6
+F d6 c6 b5 d6
 C c6 - - -
 C c6 d6 c6 b5
 C c6 d6 e6 f6
@@ -39,18 +39,55 @@ G d5 - d5 e5
 G f5 - g5 -
 C f5 - - -
 C e5 - - -
-G g5 - - -
-G - - g5 -
+@ G g5 - - -
+@ G - - g5 -
+@ C a5 g5 f5 e5
+@ C e6 - - -
+@ Dm - - - g5
+@ Dm a5 - d6 -
+@ G g5 - - -
+@ G - - - -
+@ x1
+G g5 g6 g5 g6
+G g5 - g5 -
 C a5 g5 f5 e5
-C e6 - - -
-D - - - g5
-D a5 - d6 -
-G g5 - - -
-G - - - -
-@x1
+C e5 - - -
+G d5 - d5 e5
+G f5 - g5 -
+C f5 - - -
+C e5 - - -
+G g6 g5 g6 g5
+G g6 - g6 -
+C g6 a6 g6 f6
+C e6 f6 e6 d6
+F c6 d6 c6 b5
+F c6 d6 c6 b5
+C c6 d6 e6 f6
+C g6 f6 e6 d6
+F c6 d6 c6 b5
+F c6 d6 c6 b5
+C c6 d6 e6 f6
+C g6 f6 e6 d6
+F c6 d6 c6 b5
+F c6 d6 c6 b5
+C c6 e6 c6 g5
+C g5 c6 g5 e5
+C e5 g5 e5 c5
+C c5 e5 c5 g4
+F a4 - - -
+Dm f5 a5 f5 d5
+C c5 - c5 -
+G d5 f5 d5 b4
+C c5 - c5 -
+C c6 - c6 -
+F d5 - d5 -
+F d6 - d6 -
+C e5 - e5 -
+C e6 - e6 -
+@ x1
 C c6 - - -
 C - - e6 -
-G d6 c6 b5 d6
+F d6 c6 b5 d6
 C c6 - - -
 C c6 d6 c6 b5
 C c6 d6 e6 f6
@@ -66,7 +103,7 @@ G d6 - - -
 G g6 f6 e6 d6
 C c6 - - -
 C - - e6 -
-G d6 c6 b5 d6
+F d6 c6 b5 d6
 C c6 - - -
 C c6 d6 c6 b5
 C c6 d6 e6 f6
@@ -95,7 +132,7 @@ Dm d6 - f6 d6
 G b5 - d6 b5
 G g5 - b5 -
 C c6 b5 c6 e6
-G d6 c6 b5 a5
+C d6 c6 b5 a5
 G g5 - - -
 G - - g5 -
 C a5 g5 f5 e5
@@ -106,21 +143,21 @@ C f5 - - -
 C e5 - - -
 C c6 d6 e6 f6
 C g6 a6 b6 c7
-Dm g6 - g6 f6
+Dm a6 - a6 f6
 Dm d6 - f6 d6
 G b5 - d6 b5
 G g5 - b5 -
 C c6 d6 c6 b5
 C c6 d6 c6 b5
 C c6 d6 c6 b5
+G c6 d6 c6 b5
 C c6 d6 c6 b5
 C c6 d6 c6 b5
 C c6 d6 c6 b5
-C c6 d6 c6 b5
-C c6 d6 c6 b5
+G c6 d6 c6 b5
 C c6 - - -
 C - - g5 c6
 C e6 - c6 e6
 C g6 - e6 g6
 C c7 - - -
-C - - -
+C - - - -
