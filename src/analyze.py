@@ -132,7 +132,6 @@ def calculateChord(solmizationList):
 # 		print(chord, ': ', format(prob, '.3f'), sep='', end=', ')
 # 	print()
 
-nbCorrect = nbTotal = 0
 correctChordCntDict = {chord: 0 for chord in CHORDS}
 for nbTime, period in periodList:
 	for unit in period:
