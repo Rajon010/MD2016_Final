@@ -79,10 +79,8 @@ for chord, subTable in cntTable.items():
 		cnt = max(cnt, sum(subTable[i].values()))
 	chordCntDict[chord] = cnt
 
-chordProbDict = {}
 sum_ = sum(chordCntDict.values())
-for chord, cnt in chordCntDict.items():
-	chordProbDict[chord] = cnt / sum_
+chordProbDict = {chord: cnt / sum_ for chord, cnt in chordCntDict.items()}
 
 # for chord, cnt in chordCntDict.items():
 # 	print(chord, ': ', cnt, sep='', end=', ')
@@ -132,15 +130,32 @@ def calculateChord(solmizationList):
 # 		print(chord, ': ', format(prob, '.3f'), sep='', end=', ')
 # 	print()
 
-correctChordCntDict = {chord: 0 for chord in CHORDS}
+# correctChordCntDict = {chord: 0 for chord in CHORDS}
+# for nbTime, period in periodList:
+# 	for unit in period:
+# 		if unit[1][0] == '-':
+# 			continue
+# 		if unit[0] == max(calculateChord([s[0] for s in unit[1: 1 + NB_NOTE_PER_UNIT]]).items(), key=lambda x:x[1])[0]:
+# 			correctChordCntDict[unit[0]] += nbTime
+# for chord in CHORDS:
+# 	print(chord, correctChordCntDict[chord], chordCntDict[chord], format(correctChordCntDict[chord] / chordCntDict[chord], '.3f'))
+# nbCorrectChord = sum(correctChordCntDict.values())
+# nbUnit = sum(chordCntDict.values())
+# print('total', nbCorrectChord, nbUnit, format(nbCorrectChord / nbUnit, '.3f'))
+
+chord2ChordCntDict = {c1: {c2: 0 for c2 in CHORDS} for c1 in CHORDS}
 for nbTime, period in periodList:
-	for unit in period:
-		if unit[1][0] == '-':
-			continue
-		if unit[0] == max(calculateChord([s[0] for s in unit[1: 1 + NB_NOTE_PER_UNIT]]).items(), key=lambda x:x[1])[0]:
-			correctChordCntDict[unit[0]] += nbTime
+	for i in range(len(period) - 1):
+		chord2ChordCntDict[period[i][0]][period[i + 1][0]] += nbTime
+nbUnit = sum(chordCntDict.values())
+chord2ChordProbDict = {c1: {c2: chord2ChordCntDict[c1][c2] / nbUnit for c2 in CHORDS} for c1 in CHORDS}
+print('x axis: next chord, y axis: this chord')
+print(end='\t')
 for chord in CHORDS:
-	print(chord, correctChordCntDict[chord], chordCntDict[chord], format(correctChordCntDict[chord] / chordCntDict[chord], '.3f'))
-nbCorrectChord = sum(correctChordCntDict.values())
-nbTotal = sum(chordCntDict.values())
-print('total', nbCorrectChord, nbTotal, format(nbCorrectChord / nbTotal, '.3f'))
+	print(chord, end='\t')
+print()
+for thisChord in CHORDS:
+	print(thisChord, end='\t')
+	for nextChord in CHORDS:
+		print(format(chord2ChordProbDict[thisChord][nextChord], '.3f'), end='\t')
+	print()
