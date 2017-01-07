@@ -149,7 +149,7 @@ for nbTime, period in periodList:
 		chord2ChordCntDict[period[i][0]][period[i + 1][0]] += nbTime
 nbUnit = sum(chordCntDict.values())
 chord2ChordProbDict = {c1: {c2: chord2ChordCntDict[c1][c2] / nbUnit for c2 in CHORDS} for c1 in CHORDS}
-print('x axis: next chord, y axis: this chord')
+print('x-axis: next chord, y-axis: this chord')
 print(end='\t')
 for chord in CHORDS:
 	print(chord, end='\t')
