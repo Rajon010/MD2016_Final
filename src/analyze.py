@@ -133,11 +133,15 @@ def calculateChord(solmizationList):
 # 	print()
 
 nbCorrect = nbTotal = 0
+correctChordCntDict = {chord: 0 for chord in CHORDS}
 for nbTime, period in periodList:
 	for unit in period:
 		if unit[1][0] == '-':
 			continue
 		if unit[0] == max(calculateChord([s[0] for s in unit[1: 1 + NB_NOTE_PER_UNIT]]).items(), key=lambda x:x[1])[0]:
-			nbCorrect += nbTime
-		nbTotal += nbTime
-print(nbCorrect, nbTotal, nbCorrect / nbTotal)
+			correctChordCntDict[unit[0]] += nbTime
+for chord in CHORDS:
+	print(chord, correctChordCntDict[chord], chordCntDict[chord], format(correctChordCntDict[chord] / chordCntDict[chord], '.3f'))
+nbCorrectChord = sum(correctChordCntDict.values())
+nbTotal = sum(chordCntDict.values())
+print('total', nbCorrectChord, nbTotal, format(nbCorrectChord / nbTotal, '.3f'))
