@@ -1,14 +1,8 @@
 from sys import argv
+from myUtil import addCount2Dict
 
 dataFilenameListFilename = argv[1]
 dataPath = argv[2]
-
-def addCount2Dict(d, key, value):
-	if key in d:
-		d[key] += value
-	else:
-		d[key] = value
-	return
 
 with open(dataFilenameListFilename, 'r') as f:
 	dataFilenameList = f.readlines()

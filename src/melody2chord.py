@@ -1,4 +1,5 @@
 import numpy
+from myUtil import addCount2Dict
 
 class M2CPotential:
 	def __init__(self, _dataFilenameListFilename, _dataPath):
@@ -12,29 +13,29 @@ class M2CPotential:
 	def train(self):
 		with open(self.dataFilenameListFilename, "r") as f:
 			dataFilenameList = f.readlines()
-			dataFilenameList = [dataFilename.rstrip() for dataFilename in dataFilenameList]
+		dataFilenameList = [dataFilename.rstrip() for dataFilename in dataFilenameList]
 		for dataFilename in dataFilenameList:
 			with open(self.dataPath + dataFilename, "r") as f:
 				lines = f.readlines()
-				lines = [line.rstrip().split() for line in lines]
-				for line in lines:
-					if line[0] == "@":
+			lines = [line.rstrip().split() for line in lines]
+			for line in lines:
+				if line[0] == "@":
+					continue
+				self.chordCountDict[line[0]] = (self.chordCountDict[line[0]] + 1) if line[0] in self.chordCountDict else 1
+				for i in range(4):
+					if(line[i + 1] == "-"):
 						continue
-					self.chordCountDict[line[0]] = (self.chordCountDict[line[0]] + 1) if line[0] in self.chordCountDict else 1
-					for i in range(4):
-						if(line[i + 1] == "-"):
-							continue
-						key = line[0] + str(i + 1) + line[i + 1][0]
+					key = line[0] + str(i + 1) + line[i + 1][0]
+					self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
+					if(i > 0):
+						key = line[0] + str(i) + str(i + 1) + line[i][0] + line[i + 1][0]
 						self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
-						if(i > 0):
-							key = line[0] + str(i) + str(i + 1) + line[i][0] + line[i + 1][0]
-							self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
-						if(i > 1):
-							key = line[0] + str(i - 1) + str(i) + str(i + 1) + line[i - 1][0] + line[i][0] + line[i + 1][0]
-							self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
-						if(i > 2):
-							key = line[0] + "1234" + line[i - 2][0] + line[i - 1][0] + line[i][0] + line[i + 1][0]
-							self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
+					if(i > 1):
+						key = line[0] + str(i - 1) + str(i) + str(i + 1) + line[i - 1][0] + line[i][0] + line[i + 1][0]
+						self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
+					if(i > 2):
+						key = line[0] + "1234" + line[i - 2][0] + line[i - 1][0] + line[i][0] + line[i + 1][0]
+						self.memoryChordDict[key] = (self.memoryChordDict[key] + 1) if (key in self.memoryChordDict) else 1
 		# print(self.memoryChordDict)
 		# print(self.chordCountDict)
 
