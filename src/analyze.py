@@ -1,5 +1,5 @@
 from sys import argv
-from myUtil import addCount2Dict
+import myUtil
 
 dataFilenameListFilename = argv[1]
 dataPath = argv[2]
@@ -143,19 +143,30 @@ def calculateChord(solmizationList):
 # nbUnit = sum(chordCntDict.values())
 # print('total', nbCorrectChord, nbUnit, format(nbCorrectChord / nbUnit, '.3f'))
 
+# testChordCntDict = {chord: 0 for chord in CHORDS}
+# for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, len(SOLMIZATIONS), myUtil.TUPLE):
+# 	test = [SOLMIZATIONS[i] for i in tuple_]
+# 	chord = max(calculateChord(test).items(), key=lambda x:x[1])[0]
+# 	# if chord == 'Am':
+# 	# 	print(test)
+# 	testChordCntDict[chord] += 1
+# print(testChordCntDict)
+
+
 chord2ChordCntDict = {c1: {c2: 0 for c2 in CHORDS} for c1 in CHORDS}
 for nbTime, period in periodList:
 	for i in range(len(period) - 1):
 		chord2ChordCntDict[period[i][0]][period[i + 1][0]] += nbTime
 nbUnit = sum(chordCntDict.values())
 chord2ChordProbDict = {c1: {c2: chord2ChordCntDict[c1][c2] / nbUnit for c2 in CHORDS} for c1 in CHORDS}
-print('x-axis: next chord, y-axis: this chord')
-print(end='\t')
-for chord in CHORDS:
-	print(chord, end='\t')
-print()
-for thisChord in CHORDS:
-	print(thisChord, end='\t')
-	for nextChord in CHORDS:
-		print(format(chord2ChordProbDict[thisChord][nextChord], '.3f'), end='\t')
-	print()
+# print('x-axis: next chord, y-axis: this chord')
+# print(end='\t')
+# for chord in CHORDS:
+# 	print(chord, end='\t')
+# print()
+# for thisChord in CHORDS:
+# 	print(thisChord, end='\t')
+# 	for nextChord in CHORDS:
+# 		print(format(chord2ChordProbDict[thisChord][nextChord], '.3f'), end='\t')
+# 	print()
+
