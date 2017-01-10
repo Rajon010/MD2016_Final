@@ -1,3 +1,5 @@
+from math import log
+
 def addCount2Dict(d, key, value):
 	if key in d:
 		d[key] += value
@@ -32,3 +34,10 @@ def generateAllTupleOrCombination(length, elementUpperBound, isTupleOrCombinatio
 	allPossibility = []
 	generateAllTupleOrCombinationRecursion(allPossibility, length, elementUpperBound, isTupleOrCombination, tuple())
 	return allPossibility
+
+NEGATIVE_INFINITY = float('-inf')
+
+def myNaturalLog(x):
+    if x <= 0.0:
+        return NEGATIVE_INFINITY # log(0) = -infinity
+    return log(x)
