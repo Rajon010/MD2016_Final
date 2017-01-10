@@ -38,6 +38,6 @@ def generateAllTupleOrCombination(length, elementUpperBound, isTupleOrCombinatio
 NEGATIVE_INFINITY = float('-inf')
 
 def myNaturalLog(x):
-    if x <= 0.0:
-        return NEGATIVE_INFINITY # log(0) = -infinity
-    return log(x)
+	if x <= 0.0:
+		return NEGATIVE_INFINITY # log(0) = -infinity
+	return log(x)
