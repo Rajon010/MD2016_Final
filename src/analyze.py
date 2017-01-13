@@ -27,13 +27,13 @@ for dataFilename in dataFilenameList:
 
 NB_NOTE_PER_UNIT = 4
 for nbTime, period in periodList:
-	lastSolmization = '-'
+	prevSolmization = '-'
 	for unit in period:
 		for i in range(1, 1 + NB_NOTE_PER_UNIT):
 			if unit[i] == '-':
-				unit[i] = lastSolmization
+				unit[i] = prevSolmization
 			else:
-				lastSolmization = unit[i]
+				prevSolmization = unit[i]
 
 CHORDS = ['C', 'Dm', 'F', 'G', 'Am']
 SOLMIZATIONS = ['c', 'd', 'e', 'f', 'g', 'a', 'b']
@@ -170,3 +170,54 @@ chord2ChordProbDict = {c1: {c2: chord2ChordCntDict[c1][c2] / nbUnit for c2 in CH
 # 		print(format(chord2ChordProbDict[thisChord][nextChord], '.3f'), end='\t')
 # 	print()
 
+solmization2ValueDict = {s: i for i, s in enumerate(SOLMIZATIONS)}
+# print(solmization2ValueDict)
+pitch2PitchCntDictList = [{s: {j: 0 for j in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1)} for s in SOLMIZATIONS} for i in range(NB_NOTE_PER_UNIT)]
+for nbTime, period in periodList:
+	periodLen = len(period)
+	for i in range(periodLen - 1):
+		for j in range(NB_NOTE_PER_UNIT - 1):
+			thisPitch = period[i][j + 1]
+			if thisPitch == '-':
+				continue
+			nextPitch = period[i][j + 2]
+			distance = len(SOLMIZATIONS) * (int(nextPitch[1]) - int(thisPitch[1])) + solmization2ValueDict[nextPitch[0]] - solmization2ValueDict[thisPitch[0]]
+			if distance in pitch2PitchCntDictList[j][thisPitch[0]]:
+				pitch2PitchCntDictList[j][thisPitch[0]][distance] += nbTime
+		thisPitch = period[i][NB_NOTE_PER_UNIT - 1 + 1]
+		nextPitch = period[i + 1][1]
+		distance = len(SOLMIZATIONS) * (int(nextPitch[1]) - int(thisPitch[1])) + solmization2ValueDict[nextPitch[0]] - solmization2ValueDict[thisPitch[0]]
+		if distance in pitch2PitchCntDictList[NB_NOTE_PER_UNIT - 1][thisPitch[0]]:
+			pitch2PitchCntDictList[NB_NOTE_PER_UNIT - 1][thisPitch[0]][distance] += nbTime
+	for j in range(NB_NOTE_PER_UNIT - 1):
+		thisPitch = period[periodLen - 1][j + 1]
+		nextPitch = period[periodLen - 1][j + 2]
+		distance = len(SOLMIZATIONS) * (int(nextPitch[1]) - int(thisPitch[1])) + solmization2ValueDict[nextPitch[0]] - solmization2ValueDict[thisPitch[0]]
+		if distance in pitch2PitchCntDictList[j][thisPitch[0]]:
+			pitch2PitchCntDictList[j][thisPitch[0]][distance] += nbTime
+
+pitch2PitchProbDictList = [{s: {} for s in SOLMIZATIONS} for i in range(NB_NOTE_PER_UNIT)]
+for i, pitch2PitchCntDict in enumerate(pitch2PitchCntDictList):
+	sum_ = sum([sum(subDict.values()) for subDict in pitch2PitchCntDict.values()])
+	for solmization, subDict in pitch2PitchCntDict.items():
+		for distance, cnt in subDict.items():
+			pitch2PitchProbDictList[i][solmization][distance] = cnt / sum_
+
+for i, pitch2PitchProbDict in enumerate(pitch2PitchProbDictList):
+	print(i, '-th note', sep='')
+	print(end='\t')
+	# for i in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1):
+	for i in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is to narrow
+		print(i, end='\t')
+	print()
+	for s in SOLMIZATIONS:
+		print(s, end='\t')
+		# for distance in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1):
+		for distance in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is to narrow
+			print(format(pitch2PitchProbDict[s][distance] * 100, '.2f'), end='\t')
+		print()
+	print()
+
+
+
+# seperate chord and notes
