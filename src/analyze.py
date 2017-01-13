@@ -204,16 +204,16 @@ for i, pitch2PitchCntDict in enumerate(pitch2PitchCntDictList):
 			pitch2PitchProbDictList[i][solmization][distance] = cnt / sum_
 
 for i, pitch2PitchProbDict in enumerate(pitch2PitchProbDictList):
-	print(i, '-th note', sep='')
+	print('y-axis: ', i, '-th note, x-axis: ', (i + 1) % NB_NOTE_PER_UNIT, '-th note', sep='')
 	print(end='\t')
 	# for i in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1):
-	for i in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is to narrow
+	for i in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is too narrow
 		print(i, end='\t')
 	print()
 	for s in SOLMIZATIONS:
 		print(s, end='\t')
 		# for distance in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1):
-		for distance in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is to narrow
+		for distance in range(-len(SOLMIZATIONS) + 3, len(SOLMIZATIONS) + 1): # terminal is too narrow
 			print(format(pitch2PitchProbDict[s][distance] * 100, '.2f'), end='\t')
 		print()
 	print()
