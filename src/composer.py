@@ -10,7 +10,7 @@ with open(dataFilenameListFilename, 'r') as f:
 	dataFilenameList = f.readlines()
 dataFilenameList = [dataFilename.rstrip() for dataFilename in dataFilenameList]
 
-def parsePeriod():
+# def parsePeriod():
 
 periodList = [] # stores unit: (nbTime, period)
 
@@ -211,7 +211,7 @@ for i, pitch2PitchCntDict in enumerate(pitch2PitchCntDictList):
 		for distance, cnt in subDict.items():
 			pitch2PitchProbDictList[i][solmization][distance] = cnt / sum_
 
-printJointProbMelodyMelody = True
+printJointProbMelodyMelody = False
 if printJointProbMelodyMelody:
 	for i, pitch2PitchProbDict in enumerate(pitch2PitchProbDictList):
 		print('y-axis: ', i, '-th note, x-axis: ', (i + 1) % NB_NOTE_PER_UNIT, '-th note', sep='')
@@ -228,12 +228,12 @@ if printJointProbMelodyMelody:
 			print()
 		print()
 
-def p00(m1, m2):
+def pMM(m1, m2):
 	if m2[0] not in pitch2PitchProbDictList[NB_NOTE_PER_UNIT - 1][m1[NB_NOTE_PER_UNIT - 1]]:
 		return 0
 	return pitch2PitchProbDictList[NB_NOTE_PER_UNIT - 1][m1[NB_NOTE_PER_UNIT - 1]][m2[0]]
 
-def p01(c, m):
+def pMC(c, m):
 	product = 1
 	for i in range(NB_NOTE_PER_UNIT - 1):
 		if m[i + 1] not in pitch2PitchProbDictList[i][m[i]]:
@@ -241,8 +241,14 @@ def p01(c, m):
 		product *= pitch2PitchProbDictList[i][m[i]][m[i + 1]]
 	return product * calculateChord(m)[c]
 
-def p11(c1, c2):
+def pCC(c1, c2):
 	return chord2ChordProbDict[c1][c2]
+
+def getDomainM(m):
+	return
+
+def getDomainC(c):
+	return set(chord2ChordProbDict[c].keys())
 
 from viterbiOn2ByLMRF import viterbiOn2ByLMRF
 
