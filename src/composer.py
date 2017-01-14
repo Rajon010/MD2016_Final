@@ -10,8 +10,6 @@ with open(dataFilenameListFilename, 'r') as f:
 	dataFilenameList = f.readlines()
 dataFilenameList = [dataFilename.rstrip() for dataFilename in dataFilenameList]
 
-# def parsePeriod():
-
 periodList = [] # stores unit: (nbTime, period)
 
 for dataFilename in dataFilenameList:
