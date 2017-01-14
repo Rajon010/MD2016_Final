@@ -271,7 +271,7 @@ def getDomainM(m):
 	lowerBound = max(pitch2Value(highestPitch) - len(SOLMIZATIONS), len(SOLMIZATIONS) * 5)
 	# print(upperBound, lowerBound)
 	# print(pitchList[upperBound], pitchList[lowerBound])
-	return set(tuple(pitchList[index + lowerBound] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, upperBound - lowerBound + 1, myUtil.TUPLE))
+	return set(tuple(pitchList[index + lowerBound] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, upperBound - lowerBound + 1, myUtil.TUPLE)) if max(tuple_) - min(tuple_) <= len(SOLMIZATIONS))
 	# return melodyDomain
 
 def getDomainC(c):
