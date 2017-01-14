@@ -263,7 +263,7 @@ def pCC(c1, c2):
 	return chord2ChordProbDict[c1][c2] if chord2ChordProbDict[c1][c2] != 0 else EPSILON
 
 pitchList = [solmization + str(i) for i in range(8) for solmization in SOLMIZATIONS] + ['c8']
-# melodyDomain = set(tuple(pitchList[index] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, len(pitchList), myUtil.TUPLE))
+melody2DomainDict = {}
 def getDomainM(m):
 	highestPitch = max(m, key=lambda p:pitch2Value(p))
 	lowestPitch = min(m, key=lambda p:pitch2Value(p))
@@ -271,11 +271,12 @@ def getDomainM(m):
 	lowerBound = max(pitch2Value(highestPitch) - len(SOLMIZATIONS), len(SOLMIZATIONS) * 5)
 	# print(upperBound, lowerBound)
 	# print(pitchList[upperBound], pitchList[lowerBound])
-	return set(tuple(pitchList[index + lowerBound] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, upperBound - lowerBound + 1, myUtil.TUPLE) if max(tuple_) - min(tuple_) <= len(SOLMIZATIONS))
-	# return melodyDomain
+	if (lowerBound, upperBound) not in melody2DomainDict:
+		melody2DomainDict[(lowerBound, upperBound)] = [tuple(pitchList[index + lowerBound] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, upperBound - lowerBound + 1, myUtil.TUPLE) if max(tuple_) - min(tuple_) <= len(SOLMIZATIONS)]
+	return melody2DomainDict[(lowerBound, upperBound)]
 
 def getDomainC(c):
-	return set(CHORDS)
+	return CHORDS
 
 with open(inputFilename, 'r') as f:
 	lines = f.readlines()

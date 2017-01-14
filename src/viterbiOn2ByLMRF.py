@@ -1,4 +1,3 @@
-from sys import stdout
 from myUtil import myNaturalLog
 
 def viterbiOn2ByLMRF(mrf, getDomain0, getDomain1, p00, p01, p11):
@@ -16,14 +15,12 @@ def viterbiOn2ByLMRF(mrf, getDomain0, getDomain1, p00, p01, p11):
 	L = len(mrf)
 	prevVarDict = [{} for i in range(L)]
 	print('processing column:', 0, end=' ', flush=True)
-	# stdout.flush()
-	domain00 = {mrf[0][0]} if mrf[0][0] != None else getDomain0(None)
-	domain01 = {mrf[0][1]} if mrf[0][1] != None else getDomain1(None)
+	domain00 = [mrf[0][0]] if mrf[0][0] != None else getDomain0(None)
+	domain01 = [mrf[0][1]] if mrf[0][1] != None else getDomain1(None)
 	thisPDict = {(var0, var1): myNaturalLog(p01(var0, var1)) for var0 in domain00 for var1 in domain01}
 
 	for i in range(1, L):
 		print(i, end=' ', flush=True)
-		# stdout.flush()
 		prevPDict = thisPDict
 		thisPDict = {}
 		# print(prevPDict.items())
@@ -32,9 +29,9 @@ def viterbiOn2ByLMRF(mrf, getDomain0, getDomain1, p00, p01, p11):
 			if j % 128 == 0:
 				print(j)
 			j += 1
-			domain0 = {mrf[i][0]} if mrf[i][0] != None else getDomain0(prevVar[0])
-			domain1 = {mrf[i][1]} if mrf[i][1] != None else getDomain1(prevVar[1])
-			domain = {(var0, var1) for var0 in domain0 for var1 in domain1}
+			domain0 = [mrf[i][0]] if mrf[i][0] != None else getDomain0(prevVar[0])
+			domain1 = [mrf[i][1]] if mrf[i][1] != None else getDomain1(prevVar[1])
+			domain = [(var0, var1) for var0 in domain0 for var1 in domain1]
 			if len(domain) == 0:
 				print('error: empty domain at column', i)
 			# print(len(domain0))
