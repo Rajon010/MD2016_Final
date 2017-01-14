@@ -39,7 +39,7 @@ lines = [line.rstrip().split() for line in lines]
 
 with open(outputFile, "w") as f:
 	for line in lines:
-		chord = random.choice(chords) if line[0] == "x" else line[0]
+		chord = random.choice(chords) if line[0] == "X" else line[0]
 		dict = chordDicts[chords.index(chord)]
 		maxKey = list( dict.keys() )[0]
 		for key in dict:
