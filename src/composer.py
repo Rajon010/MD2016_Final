@@ -196,8 +196,10 @@ if printJointProbChordChord:
 
 solmization2ValueDict = {s: i for i, s in enumerate(SOLMIZATIONS)}
 pitch2PitchCntDictList = [{s: {j: 0 for j in range(-len(SOLMIZATIONS), len(SOLMIZATIONS) + 1)} for s in SOLMIZATIONS} for i in range(NB_NOTE_PER_UNIT)]
+def pitch2Value(pitch):
+	return len(SOLMIZATIONS) * int(pitch[1]) + solmization2ValueDict[pitch[0]]
 def computeDistanceOf2Pitch(base, target):
-	return len(SOLMIZATIONS) * (int(target[1]) - int(base[1])) + solmization2ValueDict[target[0]] - solmization2ValueDict[base[0]]
+	return pitch2Value(target) - pitch2Value(base)
 def add2Pitch2PitchCntDict(pitch2PitchCntDict, thisPitch, nextPitch, nbTime):
 	if thisPitch == '-':
 		return
@@ -237,11 +239,13 @@ if printJointProbMelodyMelody:
 			print()
 		print()
 
+EPSILON = 10e-8
+
 def pMM(m1, m2):
 	base = m1[NB_NOTE_PER_UNIT - 1][0]
 	distance = computeDistanceOf2Pitch(m1[NB_NOTE_PER_UNIT - 1], m2[0])
 	if distance not in pitch2PitchProbDictList[NB_NOTE_PER_UNIT - 1][base]:
-		return 0
+		return EPSILON
 	return pitch2PitchProbDictList[NB_NOTE_PER_UNIT - 1][base][distance]
 
 def pMC(m, c):
@@ -249,18 +253,26 @@ def pMC(m, c):
 	for i in range(NB_NOTE_PER_UNIT - 1):
 		base = m[i][0]
 		distance = computeDistanceOf2Pitch(m[i], m[i + 1])
-		if distance not in pitch2PitchProbDictList[i][base]:
-			return 0
-		product *= pitch2PitchProbDictList[i][base][distance]
+		if (distance not in pitch2PitchProbDictList[i][base]) or (pitch2PitchProbDictList[i][base][distance] == 0):
+			product *= EPSILON
+		else:
+			product *= pitch2PitchProbDictList[i][base][distance]
 	return product * calculateChord(tuple(pitch[0] for pitch in m))[c]
 
 def pCC(c1, c2):
-	return chord2ChordProbDict[c1][c2]
+	return chord2ChordProbDict[c1][c2] if chord2ChordProbDict[c1][c2] != 0 else EPSILON
 
-pitchList = [solmization + str(i) for solmization in SOLMIZATIONS for i in range(5, 8)] + ['c8']
-melodyDomain = set(tuple(pitchList[index] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, len(pitchList), myUtil.TUPLE))
+pitchList = [solmization + str(i) for i in range(8) for solmization in SOLMIZATIONS] + ['c8']
+# melodyDomain = set(tuple(pitchList[index] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, len(pitchList), myUtil.TUPLE))
 def getDomainM(m):
-	return melodyDomain
+	highestPitch = max(m, key=lambda p:pitch2Value(p))
+	lowestPitch = min(m, key=lambda p:pitch2Value(p))
+	upperBound = min(pitch2Value(lowestPitch) + len(SOLMIZATIONS), len(SOLMIZATIONS) * 8 + 1 - 1) # included
+	lowerBound = max(pitch2Value(highestPitch) - len(SOLMIZATIONS), len(SOLMIZATIONS) * 5)
+	# print(upperBound, lowerBound)
+	# print(pitchList[upperBound], pitchList[lowerBound])
+	return set(tuple(pitchList[index + lowerBound] for index in tuple_) for tuple_ in myUtil.generateAllTupleOrCombination(NB_NOTE_PER_UNIT, upperBound - lowerBound + 1, myUtil.TUPLE))
+	# return melodyDomain
 
 def getDomainC(c):
 	return set(CHORDS)
@@ -270,12 +282,9 @@ with open(inputFilename, 'r') as f:
 lines = [line.rstrip().split() for line in lines]
 replaceDashWithPitch(lines)
 mrf = [(tuple(line[1: NB_NOTE_PER_UNIT + 1]) if line[1] != 'x' else None, line[0] if line[0] != 'X' else None) for line in lines]
-
 print(mrf)
 
 from viterbiOn2ByLMRF import viterbiOn2ByLMRF
 viterbiOn2ByLMRF(mrf, getDomainM, getDomainC, pMM, pMC, pCC)
 print(mrf)
 
-
-# seperate chord and notes

@@ -1,3 +1,4 @@
+from sys import stdout
 from myUtil import myNaturalLog
 
 def viterbiOn2ByLMRF(mrf, getDomain0, getDomain1, p00, p01, p11):
@@ -14,27 +15,37 @@ def viterbiOn2ByLMRF(mrf, getDomain0, getDomain1, p00, p01, p11):
 
 	L = len(mrf)
 	prevVarDict = [{} for i in range(L)]
-	print('processing column:', 0)
+	print('processing column:', 0, end=' ', flush=True)
+	# stdout.flush()
 	domain00 = {mrf[0][0]} if mrf[0][0] != None else getDomain0(None)
 	domain01 = {mrf[0][1]} if mrf[0][1] != None else getDomain1(None)
 	thisPDict = {(var0, var1): myNaturalLog(p01(var0, var1)) for var0 in domain00 for var1 in domain01}
 
 	for i in range(1, L):
-		print('processing column:', i)
+		print(i, end=' ', flush=True)
+		# stdout.flush()
 		prevPDict = thisPDict
 		thisPDict = {}
+		# print(prevPDict.items())
+		j = 0
 		for prevVar, prevP in prevPDict.items():
+			if j % 128 == 0:
+				print(j)
+			j += 1
 			domain0 = {mrf[i][0]} if mrf[i][0] != None else getDomain0(prevVar[0])
 			domain1 = {mrf[i][1]} if mrf[i][1] != None else getDomain1(prevVar[1])
 			domain = {(var0, var1) for var0 in domain0 for var1 in domain1}
 			if len(domain) == 0:
 				print('error: empty domain at column', i)
+			# print(len(domain0))
 			for thisVar in domain:
 				thisP = prevP + myNaturalLog(p00(prevVar[0], thisVar[0])) + myNaturalLog(p01(thisVar[0], thisVar[1])) + myNaturalLog(p11(prevVar[1], thisVar[1]))
 				if (thisVar not in thisPDict) or (thisP > thisPDict[thisVar]):
 					thisPDict[thisVar] = thisP
 					prevVarDict[i][thisVar] = prevVar
+	print()
 
+	print(max(thisPDict.items(), key=lambda x:x[1])[1])
 	mrf[L - 1] = max(thisPDict.items(), key=lambda x:x[1])[0]
 	for i in range(L - 2, -1, -1):
 		mrf[i] = prevVarDict[i + 1][mrf[i + 1]]
