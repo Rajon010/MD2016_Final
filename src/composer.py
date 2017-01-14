@@ -288,7 +288,42 @@ replaceDashWithPitch(lines)
 mrf = [(tuple(line[1: NB_NOTE_PER_UNIT + 1]) if line[1] != 'x' else None, line[0] if line[0] != 'X' else None) for line in lines]
 print(mrf)
 
+mrfResult = [(tuple(line[1: NB_NOTE_PER_UNIT + 1]) if line[1] != 'x' else None, line[0] if line[0] != 'X' else None) for line in lines]
 from viterbiOn2ByLMRF import viterbiOn2ByLMRF
-viterbiOn2ByLMRF(mrf, getDomainM, getDomainC, pMM, pMC, pCC)
-print(mrf)
+viterbiOn2ByLMRF(mrfResult, getDomainM, getDomainC, pMM, pMC, pCC)
+print(mrfResult)
 
+# for melody, chord in mrfResult:
+# 	prevPitch = None
+# 	for i in range(NB_NOTE_PER_UNIT):
+# 		if melody[i] == prevPitch:
+# 			melody[i] = '-'
+# 		else:
+# 			prevPitch = melody[i]
+
+# for i in range(len(mrf)):
+# 	for j in range(2):
+# 		if mrf[i][j] != None:
+# 			mrfResult[i] = mrfResult[i][:j] + (mrf[i][j],) + mrfResult[i][j + 1:]
+
+with open(inputFilename, 'r') as f:
+	inputLines = f.readlines()
+inputLines = [line.rstrip().split() for line in inputLines]
+with open(outputFilename, 'w') as f:
+	for i in range(len(mrfResult)):
+		f.write(mrfResult[i][1])
+		f.write(' ')
+		if inputLines[i][1] != 'x':
+			for pitch in inputLines[i][1:]:
+				f.write(pitch)
+				f.write(' ')
+		else:
+			prevPitch = None
+			for pitch in mrfResult[i][0]:
+				if pitch == prevPitch:
+					f.write('-')
+				else:
+					f.write(pitch)
+					prevPitch = pitch
+				f.write(' ')
+		f.write('\n')
