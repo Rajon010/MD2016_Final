@@ -28,13 +28,18 @@ public class Data2Sheet {
 				String[] splitedLine = line.split(" +");
 				if(splitedLine.length == 0)	continue;
 				if( splitedLine[0].equals("@") )	continue;
-				if( splitedLine[0].equals("C") )	bw.write("[C4E4G4");
+				if( splitedLine[0].equals("x") )	bw.write("[");
+				else if( splitedLine[0].equals("C") )	bw.write("[C4E4G4");
 				else if( splitedLine[0].equals("Dm") )	bw.write("[D4F4A4");
 				else if( splitedLine[0].equals("F") )	bw.write("[F4A4c4");
 				else if( splitedLine[0].equals("G") )	bw.write("[G4B4d4");
 				else if( splitedLine[0].equals("Am") )	bw.write("[A4c4e4");
 				if( splitedLine[1].equals("-") && splitedLine[2].equals("-") && splitedLine[3].equals("-") && splitedLine[4].equals("-") )
 					bw.write("]");
+				else if( !splitedLine[0].equals("x") && splitedLine[1].equals("x") && splitedLine[2].equals("x") && splitedLine[3].equals("x") && splitedLine[4].equals("x") )
+					bw.write("]");
+				else if( splitedLine[0].equals("x") && splitedLine[1].equals("x") && splitedLine[2].equals("x") && splitedLine[3].equals("x") && splitedLine[4].equals("x") )
+					bw.write("z4]");
 				else {
 					if( splitedLine[1].equals("-") )	bw.write("");
 					else if( splitedLine[1].endsWith("4") )	bw.write( splitedLine[1].toUpperCase().charAt(0) + "," );
