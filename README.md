@@ -2,7 +2,7 @@
 * python3 is used.  
 * `pip3 install mido` if you want to play with midi files.  
 * Convert text to midi: `python3 src/txt2Midi.py data/in midi/out 1 1`  
-* Compute potential funcitons: `python3 src/analyze.py data/data_file_list data/`
+* Create music: `python3 src/composer.py data/data_file_list data/ inputFilename outputFilename`
 * Convert data to sheet:
 	* Compile(Windows): `javac -sourcepath src -d bin -cp libs\abc4j_v0.5.jar src\Data2Sheet.java`
 	* Compile(Mac/Linux): `javac -sourcepath src -d bin -cp libs/abc4j_v0.5.jar src/Data2Sheet.java`
