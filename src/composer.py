@@ -258,7 +258,7 @@ def pMC(m, c):
 			else:
 				product *= pitch2PitchProbDictList[i][m[i][0]][distanceTuple[i]]
 		pMDict[base][distanceTuple] = product
-	return pMDict[base][distanceTuple] * calculateChord(tuple(pitch[0] for pitch in m))[c]
+	return pMDict[base][distanceTuple] * max(calculateChord(tuple(pitch[0] for pitch in m))[c], EPSILON)
 
 def pCC(c1, c2):
 	return chord2ChordProbDict[c1][c2] if chord2ChordProbDict[c1][c2] != 0 else EPSILON
@@ -266,10 +266,13 @@ def pCC(c1, c2):
 pitchList = [solmization + str(i) for i in range(8) for solmization in SOLMIZATIONS] + ['c8']
 melody2DomainDict = {}
 def getDomainM(m):
-	highestPitch = max(m, key=lambda p:pitch2Value(p))
-	lowestPitch = min(m, key=lambda p:pitch2Value(p))
-	upperBound = min(pitch2Value(lowestPitch) + len(SOLMIZATIONS), len(SOLMIZATIONS) * 8 + 1 - 1) # included
-	lowerBound = max(pitch2Value(highestPitch) - len(SOLMIZATIONS), len(SOLMIZATIONS) * 5)
+	upperBound = len(SOLMIZATIONS) * 8 + 1 - 1 # included
+	lowerBound = len(SOLMIZATIONS) * 5
+	if m != None:
+		highestPitch = max(m, key=lambda p:pitch2Value(p))
+		lowestPitch = min(m, key=lambda p:pitch2Value(p))
+		upperBound = min(pitch2Value(lowestPitch) + len(SOLMIZATIONS), upperBound)
+		lowerBound = max(pitch2Value(highestPitch) - len(SOLMIZATIONS), lowerBound)
 	# print(upperBound, lowerBound)
 	# print(pitchList[upperBound], pitchList[lowerBound])
 	if (lowerBound, upperBound) not in melody2DomainDict:
