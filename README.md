@@ -6,7 +6,7 @@
 * Convert data to sheet:
 	* Compile(Windows): `javac -sourcepath src -d bin -cp libs\abc4j_v0.5.jar src\Data2Sheet.java`
 	* Compile(Mac/Linux): `javac -sourcepath src -d bin -cp libs/abc4j_v0.5.jar src/Data2Sheet.java`
-	* Run(Windows): `java -cp bin;libs\abc4j_v0.5.jar Data2Sheet data\clementi_op36_no1_mv1 sheet.jpg`
-	* Run(Mac): `java -cp bin;libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 sheet.jpg`
-	* Run(Linux): `java -cp bin:libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 sheet.jpg`
+	* Run(Windows): `java -cp bin;libs\abc4j_v0.5.jar Data2Sheet data\clementi_op36_no1_mv1 image\sheet.jpg`
+	* Run(Mac): `java -cp bin;libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 image/sheet.jpg`
+	* Run(Linux): `java -cp bin:libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 image/sheet.jpg`
 
