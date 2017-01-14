@@ -248,16 +248,19 @@ def pMM(m1, m2):
 		return EPSILON
 	return pitch2PitchProbDictList[NB_NOTE_PER_UNIT - 1][base][distance]
 
+pMDict = {s: {} for s in SOLMIZATIONS}
 def pMC(m, c):
-	product = 1
-	for i in range(NB_NOTE_PER_UNIT - 1):
-		base = m[i][0]
-		distance = computeDistanceOf2Pitch(m[i], m[i + 1])
-		if (distance not in pitch2PitchProbDictList[i][base]) or (pitch2PitchProbDictList[i][base][distance] == 0):
-			product *= EPSILON
-		else:
-			product *= pitch2PitchProbDictList[i][base][distance]
-	return product * calculateChord(tuple(pitch[0] for pitch in m))[c]
+	base = m[0][0]
+	distanceTuple = tuple(computeDistanceOf2Pitch(m[i], m[i + 1]) for i in range(NB_NOTE_PER_UNIT - 1))
+	if distanceTuple not in pMDict[base]:
+		product = 1
+		for i in range(NB_NOTE_PER_UNIT - 1):
+			if (distanceTuple[i] not in pitch2PitchProbDictList[i][m[i][0]]) or (pitch2PitchProbDictList[i][m[i][0]][distanceTuple[i]] == 0):
+				product *= EPSILON
+			else:
+				product *= pitch2PitchProbDictList[i][m[i][0]][distanceTuple[i]]
+		pMDict[base][distanceTuple] = product
+	return pMDict[base][distanceTuple] * calculateChord(tuple(pitch[0] for pitch in m))[c]
 
 def pCC(c1, c2):
 	return chord2ChordProbDict[c1][c2] if chord2ChordProbDict[c1][c2] != 0 else EPSILON
