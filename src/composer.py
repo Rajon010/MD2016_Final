@@ -237,7 +237,7 @@ if printJointProbMelodyMelody:
 			print()
 		print()
 
-EPSILON = 10e-8
+EPSILON = 1e-8
 
 def pMM(m1, m2):
 	base = m1[NB_NOTE_PER_UNIT - 1][0]

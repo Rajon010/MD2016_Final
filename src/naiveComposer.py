@@ -1,4 +1,5 @@
 from sys import argv
+from random import choice
 
 dataFilenameListFilename = argv[1]
 dataPath = argv[2]
@@ -33,18 +34,22 @@ for dataFilename in dataFilenameList:
 
 sortedMelodyList = list(sorted(melocyCntDict.items(), key=lambda x:x[1], reverse=True))
 sortedChordList = list(sorted(chordCntDict.items(), key=lambda x:x[1], reverse=True))
+chordSampleList = []
+for key, value in sortedChordList:
+	chordSampleList += [key] * value
 
 with open(inputFilename, 'r') as f:
 	inputLines = f.readlines()
 inputLines = [line.rstrip().split() for line in inputLines]
 
 with open(outputFilename + '_naive', 'w') as f:
-	chordIndex = 0
+	# chordIndex = 0
 	melocyIndex = 0
 	for line in inputLines:
 		if line[0] == 'X':
-			f.write(sortedChordList[chordIndex % len(sortedChordList)][0])
-			chordIndex += 1
+			# f.write(sortedChordList[chordIndex % len(sortedChordList)][0])
+			# chordIndex += 1
+			f.write(choice(chordSampleList))
 		else:
 			f.write(line[0])
 		f.write(' ')
