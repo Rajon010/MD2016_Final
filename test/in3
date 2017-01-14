@@ -1,9 +1,9 @@
-F a5 - b5 c6
+X a5 - b5 c6
 F x x x x
-F a6 g6 f6 e6
+X a6 g6 f6 e6
 F x x x x
-C g5 - a5 b5
-C x x x x
-C g6 f6 e6 d6
-C x x x x
+X g5 - a5 b5
+X x x x x
+X g6 f6 e6 d6
+X x x x x
 Dm f5 - - -
