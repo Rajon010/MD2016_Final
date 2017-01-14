@@ -10,4 +10,5 @@
 	* Run(Windows): `java -cp bin;libs\abc4j_v0.5.jar Data2Sheet data\clementi_op36_no1_mv1 image\sheet.jpg`
 	* Run(Mac): `java -cp bin;libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 image/sheet.jpg`
 	* Run(Linux): `java -cp bin:libs/abc4j_v0.5.jar Data2Sheet data/clementi_op36_no1_mv1 image/sheet.jpg`
+* Simply fill the nodes by counts: `python3 src/simple_fill.py data/data_file_list data/ test/in3 test/simple_out3`
 
