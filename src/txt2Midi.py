@@ -54,7 +54,7 @@ def appendNoteByKey(_track, n, t):
 	return timeDelta
 
 def appendChord(_track, c, t):
-	if not hasChord:
+	if c == 'X' or not hasChord:
 		return t
 	chordBaseIndex = chord2IndexDict[c]
 	for i in range(0, 5, 2):
@@ -63,7 +63,7 @@ def appendChord(_track, c, t):
 	return 0
 
 def appendNoteByStr(_track, s, t):
-	if s == '-' or not hasNote:
+	if s in ['-', 'x'] or not hasNote:
 		return t + timeDelta
 	return appendNoteByKey(_track, baseAndIndex2Key(int(s[1]), noteName2IndexDict[s[0]]), t)
 
